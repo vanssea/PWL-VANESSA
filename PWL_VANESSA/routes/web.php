@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controller\WelcomeController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\WelcomeController as ControllersWelcomeController;
 
 /*
@@ -15,9 +16,7 @@ use App\Http\Controllers\WelcomeController as ControllersWelcomeController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PageController::class, 'index']);
 
 Route::get('/hello', [ControllersWelcomeController::class, 'hello']);
 
