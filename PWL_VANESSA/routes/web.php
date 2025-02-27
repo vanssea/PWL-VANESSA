@@ -17,6 +17,7 @@ use App\Http\Controllers\WelcomeController as ControllersWelcomeController;
 */
 
 Route::get('/', [PageController::class, 'index']);
+Route::get('/about', [PageController::class, 'about']);
 
 Route::get('/hello', [ControllersWelcomeController::class, 'hello']);
 
@@ -28,9 +29,9 @@ Route::get('/', function () {
     return 'Selamat Datang';
 });
 
-Route::get('/about', function () {
-    return 'Nama   : Vanessa Cristin Natalia <br> NIM    : 2341720026';
-});
+// Route::get('/about', function () {
+//     return 'Nama   : Vanessa Cristin Natalia <br> NIM    : 2341720026';
+// });
 
 Route::get('/user/{name}', function ($name) {
     return 'Nama saya '.$name;
