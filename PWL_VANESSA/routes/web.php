@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controller\WelcomeController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\WelcomeController as ControllersWelcomeController;
 
 /*
@@ -50,6 +51,8 @@ Route::get('/articles/{id}', [PageController::class, 'article']);
 Route::get('/user/{name?}', function ($name='John') {
     return 'Nama saya '.$name;
 });
+
+Route::resource('photos', PhotoController::class);
 
 // Route::get('/user/profile', function () {
 //     //
