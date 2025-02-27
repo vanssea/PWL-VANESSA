@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controller\WelcomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PhotoController;
-use App\Http\Controllers\WelcomeController as ControllersWelcomeController;
+use App\Http\Controllers\WelcomeController;
+
+// use App\Http\Controllers\WelcomeController as ControllersWelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,7 @@ use App\Http\Controllers\WelcomeController as ControllersWelcomeController;
 Route::get('/', [PageController::class, 'index']);
 Route::get('/about', [PageController::class, 'about']);
 
-Route::get('/hello', [ControllersWelcomeController::class, 'hello']);
+Route::get('/hello', [WelcomeController::class, 'hello']);
 
 Route::get('/world', function () {
     return 'World!';
@@ -60,9 +61,10 @@ Route::resource('photos', PhotoController::class)->only([ 'index', 'show'
 Route::resource('photos', PhotoController::class)->except([ 'create', 'store', 'update', 'destroy'
 ]);
 
-Route::get('/greeting', function () {
-    return view('blog.hello', ['name' => 'Vanessa']);
-    });
+Route::get('/greeting', [WelcomeController::class, 'greeting']);
+// Route::get('/greeting', function () {
+//     return view('blog.hello', ['name' => 'Vanessa']);
+//     });
     
 // Route::get('/greeting', function () {
 //     return view('hello', ['name' => 'Vanessa']);
