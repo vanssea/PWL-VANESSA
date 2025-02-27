@@ -28,3 +28,7 @@ Route::get('/world', function () {
 Route::get('/', function () {
     return 'Selamat Datang';
 });
+
+Route::get('/about', function () {
+    return 'Nama   : Vanessa Cristin Natalia <br> NIM    : 2341720026';
+});
