@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controller\WelcomeController;
+use App\Http\Controllers\WelcomeController as ControllersWelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello', function () {
-    return 'Hello World!';
-});
+Route::get('/hello', [ControllersWelcomeController::class, 'hello']);
 
 Route::get('/world', function () {
     return 'World!';
@@ -49,3 +49,19 @@ Route::get('/articles/{id}', function ($id) {
 Route::get('/user/{name?}', function ($name='John') {
     return 'Nama saya '.$name;
 });
+
+// Route::get('/user/profile', function () {
+//     //
+// }) -> name ('profile');
+
+// Route::get (
+//     '/user/profile',
+//     [UserProfileController::class, 'show']
+// ) -> name('profile');
+
+// //Generating URLs...
+// $url = route('profile');
+
+// //Generating Redirects...
+// return redirect() -> route ('profile');
+
