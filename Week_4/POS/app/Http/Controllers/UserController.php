@@ -7,18 +7,109 @@ use Illuminate\Http\Request;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Hash;
 
-// Jobsheet 4 - Praktikum 2.3 
+// // Jobsheet 4 - Praktikum 2.4 - No. 11
 class UserController extends Controller 
 {
     public function index()
     {
-        
-        $user = UserModel::where('level_id', 2)->count();
-        // dd($user);
+        $user = UserModel::firstOrNew( 
+            [
+                'username' => 'manager33',
+                'nama' => 'Manager Tiga Tiga',
+                'password' => Hash::make ('12345'),
+                'level_id' => 2
+            ],
+        );
+        $user->save();
+      
         return view('user', ['data' => $user]);
         
     }
 }
+
+// // // Jobsheet 4 - Praktikum 2.4 - No. 8 
+// class UserController extends Controller 
+// {
+//     public function index()
+//     {
+//         $user = UserModel::firstOrNew( 
+//             [
+//                 'username' => 'manager33',
+//                 'nama' => 'Manager Tiga Tiga',
+//                 'password' => Hash::make ('12345'),
+//                 'level_id' => 2
+//             ],
+//         );
+      
+//         return view('user', ['data' => $user]);
+        
+//     }
+// }
+
+// // Jobsheet 4 - Praktikum 2.4 - No. 6 
+// class UserController extends Controller 
+// {
+//     public function index()
+//     {
+//         $user = UserModel::firstOrNew( 
+//             [
+//                 'username' => 'manager',
+//                 'nama' => 'Manager',
+//             ],
+//         );
+      
+//         return view('user', ['data' => $user]);
+        
+//     }
+// }
+
+// // Jobsheet 4 - Praktikum 2.4 - No. 4 
+// class UserController extends Controller 
+// {
+//     public function index()
+//     {
+//         $user = UserModel::firstOrCreate( 
+//             [
+//                 'username' => 'manager22',
+//                 'nama' => 'Manager Dua Dua',
+//                 'password' => Hash::make ('12345'),
+//                 'level_id' => 2
+//             ],
+//         );
+      
+//         return view('user', ['data' => $user]);
+        
+//     }
+// }
+
+// // Jobsheet 4 - Praktikum 2.4 
+// class UserController extends Controller 
+// {
+//     public function index()
+//     {
+//         $user = UserModel::firstOrCreate( 
+//             [
+//                 'username' => 'manager',
+//                 'nama' => 'Manager',
+//             ],
+//         );
+      
+//         return view('user', ['data' => $user]);
+        
+//     }
+// }
+// // Jobsheet 4 - Praktikum 2.3 
+// class UserController extends Controller 
+// {
+//     public function index()
+//     {
+        
+//         $user = UserModel::where('level_id', 2)->count();
+//         // dd($user);
+//         return view('user', ['data' => $user]);
+        
+//     }
+// }
 
 // // Jobsheet 4 - Praktikum 2.2 - No. 10
 // class UserController extends Controller 
