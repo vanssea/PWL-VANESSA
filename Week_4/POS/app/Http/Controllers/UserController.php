@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\UserModel;
+use App\Models\LevelModel;
 use Illuminate\Support\Facades\Hash;
 
 //Jobsheet 4 - Praktikum 2.6
@@ -12,9 +13,20 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user = UserModel::all();
-        return view('user', ['data' => $user]);
+        // Jobsheet 4 - Praktikum 2.7
+        
+            $user = UserModel::with('level') -> get();
+            return view('user', ['data' => $user]);
+        
+        // $user = UserModel::with('level') -> get();
+        // dd($user);
     }
+    
+    // public function index()
+    // {
+    //     $user = UserModel::all();
+    //     return view('user', ['data' => $user]);
+    // }
 
     public function tambah()
     {
