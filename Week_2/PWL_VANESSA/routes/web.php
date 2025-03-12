@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 
 // use App\Http\Controllers\WelcomeController as ControllersWelcomeController;
@@ -62,6 +63,8 @@ Route::resource('photos', PhotoController::class)->except([ 'create', 'store', '
 ]);
 
 Route::get('/greeting', [WelcomeController::class, 'greeting']);
+
+
 // Route::get('/greeting', function () {
 //     return view('blog.hello', ['name' => 'Vanessa']);
 //     });

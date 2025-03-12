@@ -18,6 +18,17 @@ Route::get('/', function () {
 Route::get('/level', [LevelController::class, 'index']);
 Route::get('/kategori', [KategoriController::class, 'index']);
 Route::get('/user', [UserController::class, 'index']);
+Route::get('/user/tambah', [UserController::class, 'tambah']);
+// Jobsheet 4 - Praktikum 2.6 - 
+Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
+// Jobsheet 4 - Praktikum 2.6 - No 12
+Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
+// Jobsheet 4 -Praktikum 2.6 - No. 15
+Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
+// Jobsheet 4 - Praktikum 2.6 - No. 18
+Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
