@@ -7,20 +7,43 @@ use Illuminate\Http\Request;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Hash;
 
-// Jobsheet 4 - Praktikum 2.1 - No 10
-class UserController extends Controller 
-{
-    public function index()
-    {
+// // Jobsheet 4 - Praktikum 2.2 - No. 10
+// class UserController extends Controller 
+// {
+//     public function index()
+//     {
         
-        $user = UserModel::findOr (20,['username', 'nama'], function () {
-            abort(404);
-        });
+//         $user = UserModel::where('username', 'manager9')->firstOrFail();
+//         return view('user', ['data' => $user]);
+        
+//     }
+// }
 
-        return view ('user', ['data' => $user]);
+// // Jobsheet 4 - Praktikum 2.2
+// class UserController extends Controller 
+// {
+//     public function index()
+//     {
         
-    }
-}
+//         $user = UserModel::findOrFail(1);
+//         return view('user', ['data' => $user]);
+        
+//     }
+// }
+// // Jobsheet 4 - Praktikum 2.1 - No 10
+// class UserController extends Controller 
+// {
+//     public function index()
+//     {
+        
+//         $user = UserModel::findOr (20,['username', 'nama'], function () {
+//             abort(404);
+//         });
+
+//         return view ('user', ['data' => $user]);
+        
+//     }
+// }
 
 // Jobsheet 4 - Praktikum 2.1
 // class UserController extends Controller 
