@@ -17,7 +17,7 @@ class UserModel extends Model
      * 
      * @var array
      */
-    protected $fillable = ['level_id', 'username', 'nama'];
+    protected $fillable = ['username', 'nama', 'password', 'level_id'];
     // protected $fillable = ['level_id', 'username', 'nama', 'password'];
     // use HasFactory;
 
