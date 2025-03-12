@@ -7,6 +7,19 @@ use Illuminate\Http\Request;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Hash;
 
+// Jobsheet 4 - Praktikum 2.3 
+class UserController extends Controller 
+{
+    public function index()
+    {
+        
+        $user = UserModel::where('level_id', 2)->count();
+        // dd($user);
+        return view('user', ['data' => $user]);
+        
+    }
+}
+
 // // Jobsheet 4 - Praktikum 2.2 - No. 10
 // class UserController extends Controller 
 // {
