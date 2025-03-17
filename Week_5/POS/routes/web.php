@@ -27,6 +27,12 @@ Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
 Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
 // Jobsheet 4 - Praktikum 2.6 - No. 18
 Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
+// Jobsheet 5 - Praktikum 2
+Route::get('/kategori', [KategoriController::class, 'index']);
+// Jobsheet 5 - Praktikum 3
+Route::get('/kategori/create', [KategoriController::class, 'create']);
+Route::post('/kategori', [KategoriController::class, 'store']);
+
 
 
 /*
