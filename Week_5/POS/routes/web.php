@@ -30,7 +30,7 @@ Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
 // Jobsheet 5 - Praktikum 2
 Route::get('/kategori', [KategoriController::class, 'index']);
 // Jobsheet 5 - Praktikum 3
-Route::get('/kategori/create', [KategoriController::class, 'create']);
+Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
 Route::post('/kategori', [KategoriController::class, 'store']);
 
 
