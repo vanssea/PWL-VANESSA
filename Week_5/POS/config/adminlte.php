@@ -300,6 +300,7 @@ return [
 
     'menu' => [
         // Navbar items:
+        
         [
             'type' => 'navbar-search',
             'text' => 'search',
@@ -309,6 +310,13 @@ return [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
+
+        [
+            'text' => 'Manage Kategori',
+            'url' => 'kategori',
+            'icon' => 'fas fa-list',
+        ],
+
 
         // Sidebar items:
         [
