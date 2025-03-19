@@ -32,6 +32,11 @@ Route::get('/kategori', [KategoriController::class, 'index']);
 // Jobsheet 5 - Praktikum 3
 Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
 Route::post('/kategori', [KategoriController::class, 'store']);
+//Tugas Nomer 3 - Menambahkan Edit
+Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+Route::post('/kategori/{id}/update', [KategoriController::class, 'update'])->name('kategori.update');
+Route::resource('kategori', KategoriController::class);
+
 
 
 
