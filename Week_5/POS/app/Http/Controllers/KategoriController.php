@@ -62,7 +62,13 @@ class KategoriController extends Controller
 
         return response()->json(['message' => 'Kategori berhasil dihapus!']);
     }
+    public function delete($id)
+{
+    KategoriModel::where('kategori_id', $id)->delete();
+    return redirect(to: '/kategori');
 }
+}
+
 
 
 // Jobsheet 5 - Praktikum 2

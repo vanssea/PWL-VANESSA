@@ -38,6 +38,7 @@ Route::post('/kategori/{id}/update', [KategoriController::class, 'update'])->nam
 Route::resource('kategori', KategoriController::class);
 
 
+Route::get('/kategori/delete/{id}', [KategoriController::class, 'delete'])->name('kategori.delete');
 
 
 /*
