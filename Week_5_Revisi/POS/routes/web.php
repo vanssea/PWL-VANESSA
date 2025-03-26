@@ -8,6 +8,7 @@
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 // Modifikasi Praktikum 4
@@ -27,6 +28,8 @@ Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
 Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
 // Jobsheet 4 - Praktikum 2.6 - No. 18
 Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
+// Jobsheet 5 - Praktikum 2
+Route::get('/', [WelcomeController::class, 'index']);
 
 
 /*
