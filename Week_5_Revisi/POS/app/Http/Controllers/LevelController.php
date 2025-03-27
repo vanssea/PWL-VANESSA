@@ -12,7 +12,7 @@ class LevelController extends Controller
     public function index() {
         $level = LevelModel::all();
        
-        $breadcrumb = (object) [    
+        $breadcrumb = (Object) [    
             'title' => 'Daftar Level',
             'list'  => ['Home', 'Level']
         ];
@@ -22,6 +22,7 @@ class LevelController extends Controller
         ];
 
         $activeMenu = 'level';
+
         return view('level.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
