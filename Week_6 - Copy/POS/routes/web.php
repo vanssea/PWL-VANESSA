@@ -79,15 +79,22 @@ Route::group(['prefix' => 'supplier'], function () {
     Route::delete('/{id}', [SupplierController::class, 'destroy']); // menghapus data Supplier
 });
 
-Route::group(['prefix' => 'barang'], function() {
-    Route::get('/', [BarangController::class, 'index']);
-    Route::post('/list', [BarangController::class, 'list']);
-    Route::get('/create', [BarangController::class, 'create']);
-    Route::post('/', [BarangController::class, 'store']);
-    Route::get('/{id}', [BarangController::class, 'show']);
-    Route::get('/{id}/edit', [BarangController::class, 'edit']); 
-    Route::put('/{id}', [BarangController::class, 'update']);
-    Route::delete('/{id}', [BarangController::class, 'destroy']);
+Route::group(['prefix' => 'barang'], function () {
+    Route::get('/', [BarangController::class, 'index']); // menampilkan halaman awal barang
+    Route::post('/list', [BarangController::class, 'list']); // menampilkan data barang dalam bentuk json untuk datatables
+    Route::get('/create', [BarangController::class, 'create']); // menampilkan halaman form tambah barang
+    Route::post('/', [BarangController::class, 'store']); // menyimpan data barang baru
+    Route::get('/create_ajax', [BarangController::class, 'create_ajax']); // Menampilkan halaman form tambah user Ajax
+    Route::post('/ajax', [BarangController::class, 'store_ajax']); // Menyimpan data user baru Ajax
+    Route::get('/{id}', [BarangController::class, 'show']); // menampilkan detail barang
+    Route::get('/{id}/edit', [BarangController::class, 'edit']); // menampilkan halaman form edit barang
+    Route::put('/{id}', [BarangController::class, 'update']); // menyimpan perubahan data barang
+     Route::get('/{id}/edit_ajax', [BarangController::class, 'edit_ajax']); //Menampilkan halaman
+     Route::put('/{id}/update_ajax', [BarangController::class, 'update_ajax']); //Menyimpan perubahan
+     Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']); // Untuk tampilkan form confirm delete user Ajax
+     Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']); // Untuk hapus data user Ajax
+     
+    Route::delete('/{id}', [BarangController::class, 'destroy']); // menghapus data barang
 });
 
 // use App\Http\Controllers\HomeController;
