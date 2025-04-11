@@ -5,6 +5,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
+                <button onclick="modalAction('{{ url('/kategori/import') }}')" class="btn btn-sm btn-info mt-1">Import Kategori</button>
                 <a class="btn btn-sm btn-primary mt-1" href="{{ url('kategori/create') }}">Tambah</a>
                 <button onclick="modalAction('{{ url('/kategori/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
             </div>
@@ -20,8 +21,8 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>kategori Kode</th>
-                        <th>kategori Nama</th>
+                        <th>Kategori Kode</th>
+                        <th>Kategori Nama</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -77,6 +78,12 @@
                     searchable: false
                 }]
             });
+
+        $('#table_kategori_filter input').unbind().bind().on('keyup', function(e){
+            if(e.keyCode == 13){ // enter key
+                dataKategori.search(this.value).draw();
+            }
         });
+    });
     </script>
 @endpush

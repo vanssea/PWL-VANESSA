@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LevelModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -43,9 +44,9 @@ class LevelController extends Controller
                 //      . csrf_field() . method_field('DELETE')
                 //      . '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah anda yakin menghapus data ini?\');">Hapus</button></form>';
 
-                $btn = '<button onclick="modalAction(\''.url('/level/' . $level->level_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button>';
-                $btn .= '<button onclick="modalAction(\''.url('/level/' . $level->level_id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button>';
-                $btn .= '<button onclick="modalAction(\''.url('/level/' . $level->level_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Hapus</button>';
+                $btn = '<button onclick="modalAction(\''.url('/level/' . $level->level_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\''.url('/level/' . $level->level_id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\''.url('/level/' . $level->level_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn; 
             })
             ->rawColumns(['aksi'])
@@ -250,5 +251,75 @@ class LevelController extends Controller
     }
 
     return redirect('/');
+    }
+
+    public function import(){
+        return view('level.import');
+    }
+
+    public function import_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+
+            $rules = [
+                // Validasi file harus xlsx, maksimal 1MB
+                'file_level' => ['required', 'mimes:xlsx', 'max:1024']
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'   => false,
+                    'message'  => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            // Ambil file dari request
+            $file = $request->file('file_level');
+
+            // Membuat reader untuk file excel dengan format Xlsx
+            $reader = IOFactory::createReader('Xlsx');
+            $reader->setReadDataOnly(true); // Hanya membaca data saja
+
+            // Load file excel
+            $spreadsheet = $reader->load($file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet(); // Ambil sheet yang aktif
+
+            // Ambil data excel sebagai array
+            $data = $sheet->toArray(null, false, true, true);
+            $insert = [];
+
+            // Pastikan data memiliki lebih dari 1 baris (header + data)
+            if (count($data) > 1) {
+                foreach ($data as $baris => $value) {
+                    if ($baris > 1) { // Baris pertama adalah header, jadi lewati
+                        $insert[] = [
+                            'level_kode' => $value['A'],
+                            'level_nama' => $value['B'],
+                            'created_at'  => now(),
+                        ];
+                    }
+                }
+
+                if (count($insert) > 0) {
+                    // Insert data ke database, jika data sudah ada, maka diabaikan
+                    LevelModel::insertOrIgnore($insert);
+                }
+
+                return response()->json([
+                    'status'  => true,
+                    'message' => 'Data berhasil diimport'
+                ]);
+            } else {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Tidak ada data yang diimport'
+                ]);
+            }
+        }
+
+        return redirect('/');
     }
 }

@@ -75,9 +75,9 @@ class BarangController extends Controller
             . csrf_field() . method_field('DELETE') .
             '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakit menghapus data ini?\');">Hapus</button></form>';*/
             $btn = '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id .
-                '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                '/show_ajax') . '\')" class="btn btn-info btn-sm me-1">Detail</button> ';
             $btn .= '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id .
-                '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                '/edit_ajax') . '\')" class="btn btn-warning btn-sm me-1">Edit</button> ';
             $btn .= '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id .
                 '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn;
@@ -393,17 +393,39 @@ class BarangController extends Controller
             // Ambil data excel sebagai array
             $data = $sheet->toArray(null, false, true, true);
             $insert = [];
+            $errors = [];
 
             // Pastikan data memiliki lebih dari 1 baris (header + data)
             if (count($data) > 1) {
+                // Pertama, validasi setiap baris kategori_id
                 foreach ($data as $baris => $value) {
                     if ($baris > 1) { // Baris pertama adalah header, jadi lewati
+                        $kategoriId = $value['A'];
+                        // Cek apakah kategori_id ada di tabel m_kategori
+                        if (!KategoriModel::where('kategori_id', $kategoriId)->exists()) {
+                            $errors["baris_$baris"] = "Kategori dengan ID {$kategoriId} tidak terdaftar.";
+                        }
+                    }
+                }
+
+                // Jika ada error validasi kategori, kembalikan response error
+                if (count($errors) > 0) {
+                    return response()->json([
+                        'status'   => false,
+                        'message'  => 'Validasi kategori gagal',
+                        'msgField' => $errors
+                    ]);
+                }
+
+                // Jika semua kategori valid, buat array data untuk di-insert
+                foreach ($data as $baris => $value) {
+                    if ($baris > 1) { // Lewati header
                         $insert[] = [
                             'kategori_id' => $value['A'],
                             'barang_kode' => $value['B'],
                             'barang_nama' => $value['C'],
-                            'harga_beli'  => $value['D'],
-                            'harga_jual'  => $value['E'],
+                            'harga_jual'  => $value['D'],
+                            'harga_beli'  => $value['E'],
                             'created_at'  => now(),
                         ];
                     }

@@ -43,6 +43,8 @@ Route::middleware(['authorize:ADM'])->group(function() {
     Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);          // menyimpan perubahan data user Ajax
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);       // menampilkan halaman form delete user Ajax
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);      // menghapus data user Ajax
+    Route::get('/import', [UserController::class, 'import']);
+    Route::post('/import_ajax', [UserController::class, 'import_ajax']);
     Route::delete('/{id}', [UserController::class, 'destroy']);      // menghapus data user
     });
 });
@@ -62,6 +64,8 @@ Route::middleware(['authorize:ADM'])->group(function() {
     Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax']);
     Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']);
+    Route::get('/import', [LevelController::class, 'import']);
+    Route::post('/import_ajax', [LevelController::class, 'import_ajax']);
     Route::delete('/{id}', [LevelController::class, 'destroy']);      // menghapus data user
     });
 });
@@ -73,14 +77,16 @@ Route::middleware(['authorize:ADM,MNG,STF'])->group(function() {
     Route::get('/create', [KategoriController::class, 'create']);
     Route::post('/', [KategoriController::class, 'store']);
     Route::get('/create_ajax', [KategoriController::class, 'create_ajax']);
-     Route::post('/ajax', [KategoriController::class, 'store_ajax']);
+    Route::post('/ajax', [KategoriController::class, 'store_ajax']);
     Route::get('/{id}', [KategoriController::class, 'show']);
     Route::get('/{id}/edit', [KategoriController::class, 'edit']); 
     Route::put('/{id}', [KategoriController::class, 'update']);
     Route::get('/{id}/edit_ajax', [KategoriController::class, 'edit_ajax']);
-     Route::put('/{id}/update_ajax', [KategoriController::class, 'update_ajax']);
-     Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']);
-     Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']);
+    Route::put('/{id}/update_ajax', [KategoriController::class, 'update_ajax']);
+    Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']);
+    Route::get('/import', [KategoriController::class, 'import']);
+    Route::post('/import_ajax', [KategoriController::class, 'import_ajax']);
     Route::delete('/{id}', [KategoriController::class, 'destroy']);
     });
 });
@@ -100,6 +106,8 @@ Route::middleware(['authorize:ADM,MNG'])->group(function() {
     Route::put('/{id}/update_ajax', [SupplierController::class, 'update_ajax']); // Menyimpan perubahan data Supplier Ajax
     Route::get('/{id}/delete_ajax', [SupplierController::class, 'confirm_ajax']); // Untuk tampilkan form confirm delete Supplier Ajax
     Route::delete('/{id}/delete_ajax', [SupplierController::class, 'delete_ajax']); // Untuk hapus data Supplier Ajax
+    Route::get('/import', [SupplierController::class, 'import']);
+    Route::post('/import_ajax', [SupplierController::class, 'import_ajax']);
     Route::delete('/{id}', [SupplierController::class, 'destroy']); // menghapus data Supplier
     });
 });

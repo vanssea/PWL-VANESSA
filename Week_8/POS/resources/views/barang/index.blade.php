@@ -145,9 +145,9 @@
         });
 
         // Melakukan reload dataTables secara otomatis ketika berhasil melakukan CRUD
-        // $('#myModal').on('hidden.bs.modal', function () {
-        //     tableBarang.ajax.reload(null, false);
-        // });
+        $('#myModal').on('hidden.bs.modal', function () {
+                tableBarang.ajax.reload(null, false);
+         });
     });
 </script>
 @endpush
