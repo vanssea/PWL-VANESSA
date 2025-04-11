@@ -130,6 +130,7 @@ Route::middleware(['authorize:ADM,MNG,STF'])->group(function() {
     Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']); // Untuk hapus data user Ajax
     Route::get('/import', [BarangController::class, 'import']); // ajax form upload excel
     Route::post('/import_ajax', [BarangController::class, 'import_ajax']); // ajax import excel
+    Route::get('/export_excel', [BarangController::class, 'export_excel']); // export excel
     Route::delete('/{id}', [BarangController::class, 'destroy']); // menghapus data barang
     });
 });
