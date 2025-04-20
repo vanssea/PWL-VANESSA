@@ -158,6 +158,12 @@ class BarangController extends Controller
         ]);
     }
 
+    public function show_ajax(string $id) {
+        $barang = BarangModel::find($id);
+
+        return view('barang.show_ajax', ['barang' => $barang]);
+    }
+
     // Menampilkan halaman form edit barang
     public function edit(string $id)
     {

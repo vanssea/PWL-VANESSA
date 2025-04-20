@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PenjualanController;
+use Database\Seeders\BarangSeeder;
 
 Route::pattern('id','[0-9]+'); // artinya ketika ada parameter {id}, maka harus berupa angka
 
@@ -35,6 +36,7 @@ Route::middleware(['authorize:ADM'])->group(function() {
     Route::post('/ajax', [UserController::class, 'store_ajax']); // menyimpan data user baru Ajax
     Route::post('/', [UserController::class, 'store']);              // menyimpan data user baru
     Route::get('/{id}', [UserController::class, 'show']);            // menampilkan detail user
+    Route::get('/{id}/show_ajax', [UserController::class, 'show_ajax']);
     Route::get('/{id}/edit', [UserController::class, 'edit']);       // menampilkan halaman form edit user
     Route::put('/{id}', [UserController::class, 'update']);          // menyimpan perubahan data user
     Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);       // menampilkan halaman form edit user Ajax
@@ -58,6 +60,7 @@ Route::middleware(['authorize:ADM'])->group(function() {
     Route::get('/create_ajax', [LevelController::class, 'create_ajax']);
     Route::post('/ajax', [LevelController::class, 'store_ajax']);
     Route::get('/{id}', [LevelController::class, 'show']);            // menampilkan detail user
+    Route::get('/{id}/show_ajax', [LevelController::class, 'show_ajax']);
     Route::get('/{id}/edit', [LevelController::class, 'edit']);       // menampilkan halaman form edit user
     Route::put('/{id}', [LevelController::class, 'update']);          // menyimpan perubahan data user
     Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax']); 
@@ -81,6 +84,7 @@ Route::middleware(['authorize:ADM,MNG,STF'])->group(function() {
     Route::get('/create_ajax', [KategoriController::class, 'create_ajax']);
     Route::post('/ajax', [KategoriController::class, 'store_ajax']);
     Route::get('/{id}', [KategoriController::class, 'show']);
+    Route::get('/{id}/show_ajax', [KategoriController::class, 'show_ajax']);
     Route::get('/{id}/edit', [KategoriController::class, 'edit']); 
     Route::put('/{id}', [KategoriController::class, 'update']);
     Route::get('/{id}/edit_ajax', [KategoriController::class, 'edit_ajax']);
@@ -104,6 +108,7 @@ Route::middleware(['authorize:ADM,MNG'])->group(function() {
     Route::get('/create_ajax', [SupplierController::class, 'create_ajax']); // Menampilkan halaman form tambah Supplier Ajax
     Route::post('/ajax', [SupplierController::class, 'store_ajax']); // Menyimpan data Supplier baru Ajax
     Route::get('/{id}', [SupplierController::class, 'show']); // menampilkan detail Supplier
+    Route::get('/{id}/show_ajax', [SupplierController::class, 'show_ajax']);
     Route::get('/{id}/edit', [SupplierController::class, 'edit']); // menampilkan halaman form edit Supplier
     Route::put('/{id}', [SupplierController::class, 'update']); // menyimpan perubahan data Supplier
     Route::get('/{id}/edit_ajax', [SupplierController::class, 'edit_ajax']); // Menampilkan halaman form edit Supplier Ajax
@@ -128,6 +133,7 @@ Route::middleware(['authorize:ADM,MNG,STF'])->group(function() {
     Route::get('/create_ajax', [BarangController::class, 'create_ajax']); // Menampilkan halaman form tambah user Ajax
     Route::post('/ajax', [BarangController::class, 'store_ajax']); // Menyimpan data user baru Ajax
     Route::get('/{id}', [BarangController::class, 'show']); // menampilkan detail barang
+    Route::get('/{id}/show_ajax', [BarangController::class, 'show_ajax']);
     Route::get('/{id}/edit', [BarangController::class, 'edit']); // menampilkan halaman form edit barang
     Route::put('/{id}', [BarangController::class, 'update']); // menyimpan perubahan data barang
     Route::get('/{id}/edit_ajax', [BarangController::class, 'edit_ajax']); //Menampilkan halaman
@@ -151,6 +157,7 @@ Route::group(['prefix' => 'stok'], function () {
         Route::post('/ajax', [StokController::class, 'store_ajax']); // menyimpan data user baru Ajax
         Route::post('/', [StokController::class, 'store']);              // menyimpan data user baru
         Route::get('/{id}', [StokController::class, 'show']);            // menampilkan detail user
+        Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']);
         Route::get('/{id}/edit', [StokController::class, 'edit']);       // menampilkan halaman form edit user
         Route::put('/{id}', [StokController::class, 'update']);          // menyimpan perubahan data user
         Route::get('/{id}/edit_ajax', [StokController::class, 'edit_ajax']);       // menampilkan halaman form edit user Ajax
@@ -165,23 +172,23 @@ Route::group(['prefix' => 'stok'], function () {
         });
     });
 
-    Route::group(['prefix' => 'stok'], function() {
-        Route::middleware(['authorize:ADM,MNG,STF'])->group(function() {
-            Route::get('/', [StokController::class, 'index']);
-            Route::post('/list', [StokController::class, 'list']);
-            Route::get('/create_ajax', [StokController::class, 'create_ajax']);
-            Route::post('/ajax', [StokController::class, 'store_ajax']);
-            Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']);
-            Route::get('/{id}/edit_ajax', [StokController::class, 'edit_ajax']); 
-            Route::put('/{id}/update_ajax', [StokController::class, 'update_ajax']);
-            Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']);
-            Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']);   
-            Route::get('import', [StokController::class, 'import']);
-            Route::post('import_ajax', [StokController::class, 'import_ajax']);
-            Route::get('export_excel', [StokController::class, 'export_excel']);
-            Route::get('export_pdf', [StokController::class, 'export_pdf']);
-            });
-        });
+    // Route::group(['prefix' => 'stok'], function() {
+    //     Route::middleware(['authorize:ADM,MNG,STF'])->group(function() {
+    //         Route::get('/', [StokController::class, 'index']);
+    //         Route::post('/list', [StokController::class, 'list']);
+    //         Route::get('/create_ajax', [StokController::class, 'create_ajax']);
+    //         Route::post('/ajax', [StokController::class, 'store_ajax']);
+    //         Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']);
+    //         Route::get('/{id}/edit_ajax', [StokController::class, 'edit_ajax']); 
+    //         Route::put('/{id}/update_ajax', [StokController::class, 'update_ajax']);
+    //         Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']);
+    //         Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']);   
+    //         Route::get('import', [StokController::class, 'import']);
+    //         Route::post('import_ajax', [StokController::class, 'import_ajax']);
+    //         Route::get('export_excel', [StokController::class, 'export_excel']);
+    //         Route::get('export_pdf', [StokController::class, 'export_pdf']);
+    //         });
+    //     });
 
     Route::group(['prefix' => 'penjualan'], function () {
         Route::middleware(['authorize:ADM,MNG,STF'])->group(function() {
