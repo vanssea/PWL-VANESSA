@@ -258,6 +258,7 @@ class StokController extends Controller
         return redirect('/');
     }
 
+
     public function export_excel()
     {
         // ambil data user yang akan di export

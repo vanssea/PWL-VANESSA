@@ -7,7 +7,6 @@ use App\Models\BarangModel;
 use App\Models\UserModel;
 use App\Models\PenjualanDetailModel;
 use App\Models\StokModel;
-use App\Http\Controllers\Date;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +15,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use App\Models\Penjualan;
 
 class PenjualanController extends Controller
@@ -215,6 +215,86 @@ public function show_ajax(string $id)
         return view('penjualan.import');
     }
 
+    public function import_ajax(Request $request)
+    {
+        try {
+            if ($request->ajax() || $request->wantsJson()) {
+                $rules = [
+                    'file_penjualan' => ['required', 'mimes:xlsx', 'max:1024']
+                ];
+    
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Validasi Gagal',
+                        'msgField' => $validator->errors()
+                    ]);
+                }
+    
+                $file = $request->file('file_penjualan');
+                $reader = IOFactory::createReader('Xlsx');
+                $reader->setReadDataOnly(true);
+                $spreadsheet = $reader->load($file->getRealPath());
+                $sheet = $spreadsheet->getActiveSheet();
+                $data = $sheet->toArray(null, false, true, true);
+    
+                $insert = [];
+    
+                if (count($data) > 1) {
+                    foreach ($data as $baris => $value) {
+                        if ($baris > 1) {
+                            // Abaikan baris kalau salah satu key tidak ada
+                            if (!isset($value['B'], $value['C'], $value['D'], $value['E'])) {
+                                continue;
+                            }
+                    
+                            $tanggal_excel = $value['E'];
+                            $tanggal = null;
+                    
+                            if (is_numeric($tanggal_excel)) {
+                                $tanggal = Date::excelToDateTimeObject($tanggal_excel)->format('Y-m-d H:i:s');
+                            } else {
+                                $tanggal = date('Y-m-d H:i:s', strtotime($tanggal_excel));
+                            }
+                    
+                            $insert[] = [
+                                'user_id' => $value['B'],
+                                'pembeli' => $value['C'],
+                                'penjualan_kode' => $value['D'],
+                                'penjualan_tanggal' => $tanggal,
+                                'created_at' => now()
+                            ];
+                        }
+                    }
+                    
+    
+                    if (count($insert) > 0) {
+                        PenjualanModel::insert($insert);
+
+                    }
+    
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Data berhasil diimport'
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Tidak ada data yang diimport'
+                    ]);
+                }
+            }
+    
+            return redirect('/');
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi error: ' . $e->getMessage(),
+            ]);
+        }
+    }
+    
 
     public function confirm_ajax(string $id)
     {

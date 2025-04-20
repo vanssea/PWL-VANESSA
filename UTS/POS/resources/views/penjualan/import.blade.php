@@ -3,7 +3,7 @@
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Import Data Penjualan</h5>
+                <h5 class="modal-title">Import Data Penjualan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -14,10 +14,10 @@
                     <a href="{{ asset('template_penjualan.xlsx') }}" class="btn btn-info btn-sm" download>
                         <i class="fa fa-file-excel"></i> Download
                     </a>
-                    <small id="error-penjualan_id" class="error-text form-text text-danger"></small>
+                    <small id="error-template" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Pilih File</label>
+                    <label>Pilih File Excel</label>
                     <input type="file" name="file_penjualan" id="file_penjualan" class="form-control" required>
                     <small id="error-file_penjualan" class="error-text form-text text-danger"></small>
                 </div>
