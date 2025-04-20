@@ -44,7 +44,7 @@ class PenjualanController extends Controller
         ->addColumn('aksi', function ($penjualan) {
             $btn  = '<button onclick="modalAction(\'' . url('/penjualan/' . $penjualan->penjualan_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
             $btn .= '<a href="' . url('/penjualan/' . $penjualan->penjualan_id . '/cetak-struk') . '" target="_blank" class="btn btn-success btn-sm"><i class="fas fa-print"></i> Cetak Struk</a> ';            
-            $btn .= '<button onclick="modalAction(\'' . url('/penjualan/' . $penjualan->penjualan_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button>';
+            $btn .= '<button onclick="modalAction(\''.url('/penjualan/' . $penjualan->penjualan_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm mr-1">Hapus</button>';
             return $btn;        
             })
             ->rawColumns(['aksi'])
@@ -223,34 +223,30 @@ public function show_ajax(string $id)
         return view('penjualan.confirm_ajax', ['penjualan' => $penjualan]);
     }
 
-    public function delete_ajax(Request $request, $id)
-    {
-        // cek apakah request dari ajax
+    public function delete_ajax(Request $request, $id){
         if ($request->ajax() || $request->wantsJson()) {
             $penjualan = PenjualanModel::find($id);
-            if ($penjualan) {
-                try {
-                    // Hapus dulu semua detail yang terkait
-                    $penjualan->detail()->delete(); // Pastikan relasi 'detail' ada di model
-                    // Baru hapus data induknya
-                    $penjualan->delete();
-                    return response()->json([
-                        'status' => true,
-                        'message' => 'Data berhasil dihapus'
-                    ]);
-                } catch (\Illuminate\Database\QueryException $e) {
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'Data tidak bisa dihapus'
-                    ]);
-                }
-            } else {
+            if (!$penjualan) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Data tidak ditemukan'
                 ]);
             }
+    
+            try {
+                $penjualan->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            } catch (\Illuminate\Database\QueryException $e) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini'
+                ]);
+            }
         }
+    
         return redirect('/');
     }
 
