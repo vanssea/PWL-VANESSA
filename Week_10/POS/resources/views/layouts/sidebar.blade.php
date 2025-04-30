@@ -1,17 +1,19 @@
 <div class="sidebar">
   <li class="nav-item text-center mt-3">
     <a href="{{ url('/profile') }}" class="d-block">
-        @php
-            $user = Auth::user();
-            $photo = $user->profile_picture && file_exists(public_path('uploads/profile/' . $user->profile_picture))
-                    ? asset('uploads/profile/' . $user->profile_picture)
-                    : asset('uploads/profile/default.png');
-        @endphp
-        <img src="{{ $photo }}" 
-             alt="Foto Profil" 
-             class="img-circle elevation-2" 
-             style="width: 70px; height: 70px; object-fit: cover; border: 2px solid white;">
-        <p class="mt-2 text-white">{{ $user->username }}</p>
+      @php
+      $user = Auth::user();
+      $photo = $user && $user->profile_picture && file_exists(public_path('uploads/profile/' . $user->profile_picture))
+              ? asset('uploads/profile/' . $user->profile_picture)
+              : asset('uploads/profile/default.png');
+  @endphp
+  
+  <img src="{{ $photo }}"
+       alt="Foto Profil"
+       class="img-circle elevation-2"
+       style="width: 70px; height: 70px; object-fit: cover; border: 2px solid white;">
+  
+  <p class="mt-2 text-white">{{ $user->username ?? 'Guest' }}</p>  
     </a>
 </li>
 
